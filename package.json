@@ -1,5 +1,5 @@
 {
-  "name": "fit",
+  "name": "DegtRSFit",
   "version": "1.0.0",
   "description": "My own fitness microservice",
   "author": "Ruslan Degtyaryov",
@@ -20,7 +20,9 @@
   "devDependencies": {
     "bempug": "^1.1.1",
     "jquery": "^3.4.1",
+    "node-sass": "^4.13.0",
     "pug": "^2.0.4",
-    "pug-plain-loader": "^1.0.0"
+    "pug-plain-loader": "^1.0.0",
+    "sass-loader": "^8.0.0"
   }
 }

@@ -1,52 +1,56 @@
-<template lang="pug">
-	include ../node_modules/bempug/index
-	.container
-		.myDiv
-			logo
-			h1.title fit
-			h2.subtitle My own fitness microservice!
-			.links
+<template lang="pug" src="~/assets/index.pug">
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+  import Logo from '~/components/Logo.vue'
 
-export default {
-  components: {
-    Logo
+  export default {
+    data() {
+      return {
+        excs: require('~/data/excs.json'),
+        fields: ['ex', 'week1','week2','week3','week4'],
+        currentEx: 0,
+        selectedWeek: 1
+      }
+    },
+    mounted() {
+      console.log(this.currentEx.length);
+
+      if (localStorage.getItem('selectedWeek')) {
+        this.selectedWeek = localStorage.getItem('selectedWeek');
+      }
+
+      if (localStorage.getItem('currentEx')) {
+        this.currentEx = localStorage.getItem('currentEx');
+      }
+    },
+    methods: {
+      rowClick(el, index) {
+        this.currentEx = index;
+        localStorage.setItem('currentEx', index);
+      },
+      next() {
+        if (this.currentEx + 1 < this.excs.length) {
+          this.currentEx = (this.currentEx / 1) + 1;
+        }
+      },
+      prev() {
+        if (this.currentEx > 0) {
+          this.currentEx = (this.currentEx / 1) - 1;
+        }
+      }
+    },
+    watch: {
+      selectedWeek: function () {
+        localStorage.setItem('selectedWeek', this.selectedWeek);
+        // this.currentEx = 0;
+      }
+    },
+    components: {
+      Logo
+    }
   }
-}
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
+<style lang="scss" src="../assets/style.scss">
 </style>
