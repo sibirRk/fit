@@ -32,11 +32,13 @@
       next() {
         if (this.currentEx + 1 < this.excs.length) {
           this.currentEx = (this.currentEx / 1) + 1;
+          localStorage.setItem('currentEx', this.currentEx);
         }
       },
       prev() {
         if (this.currentEx > 0) {
           this.currentEx = (this.currentEx / 1) - 1;
+          localStorage.setItem('currentEx', this.currentEx);
         }
       }
     },

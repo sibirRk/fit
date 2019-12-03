@@ -44,6 +44,10 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
   ],
+  pwa: {
+    workbox: {
+    }
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

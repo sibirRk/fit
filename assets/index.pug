@@ -8,8 +8,10 @@ include ../node_modules/bempug/index
       input(type="radio" id=i value=i v-model="selectedWeek")
     .btns
       input.left(type="button" value="Назад" @click="prev")
+      strong {{ (currentEx / 1) + 1 }} / {{ excs.length }}
       input.right(type="button" value="Вперед" @click="next")
 
+    br
     h3 {{ excs[currentEx].ex }}
     p
       strong.strong Подходы:
