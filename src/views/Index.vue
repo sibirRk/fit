@@ -1,10 +1,15 @@
 <template>
-  <div>
+  <div v-if="collection && currentEx">
     <small>{{currentExIndex + 1}}/{{collection.length}}</small>
     <h3>{{ currentEx.name }}</h3>
 
     <b-form-group label="Текущий вес" class="mb-4">
-      <b-form-input v-model="weight"></b-form-input>
+      <b-form-input
+        :value="weight"
+        autocomplete="off"
+        type="number"
+        v-debounce:1500ms="changeWeight"
+      ></b-form-input>
     </b-form-group>
 
     <p>
@@ -28,6 +33,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import { debounce } from 'vue-debounce';
 
 export default {
   name: 'IndexPage',
@@ -46,7 +52,9 @@ export default {
       },
 
       set(value) {
-        this.setCurrentExIndex(value);
+        debounce(() => {
+          this.setCurrentExIndex(value);
+        }, 1500);
       }
     },
 
@@ -67,11 +75,11 @@ export default {
       get() {
         return this.currentEx.weight;
       },
-      set(value) {
-        if (value) {
-          this.setWeight(value);
-        }
-      }
+      // set(value) {
+      //   if (value) {
+      //     debounce(() => this.setWeight, 1500);
+      //   }
+      // }
     },
 
     fields() {
@@ -104,13 +112,17 @@ export default {
     }
   },
 
-  mounted() {
-    this.updateLocalCollection();
+  created() {
+    this.getCollection();
   },
 
   methods: {
     ...mapMutations(['setCurrentExIndex']),
-    ...mapActions(['updateLocalCollection', 'setWeight']),
+    ...mapActions(['getCollection', 'updateLocalCollection', 'setWeight']),
+
+    changeWeight(value) {
+      this.setWeight(+value);
+    }
   },
 }
 </script>

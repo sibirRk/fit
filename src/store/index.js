@@ -1,16 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import exercises from '@/data/exercises.json';
+// import exercises from '@/data/exercises.json';
+import vueDebounce from 'vue-debounce';
+import axios from '@/utils/axios';
 
 Vue.use(Vuex);
+Vue.use(vueDebounce);
 
-const localCollection = localStorage.getItem('fit-collection');
-let parsedlocalCollection;
-if (localCollection) parsedlocalCollection = JSON.parse(localCollection);
 
 export default new Vuex.Store({
   state: {
-    collection: parsedlocalCollection || exercises,
+    collection: [],
     week: localStorage.getItem('fit-week') || 1,
     weeks: [1, 2, 3, 4],
     currentExIndex: 0,
@@ -44,22 +44,16 @@ export default new Vuex.Store({
   },
 
   actions: {
-    updateLocalCollection({ state }) {
-      const localSettings = localStorage.getItem('fit-collection');
-
-      state.collection.forEach(el => {
-        if (!el.weight) {
-          el.weight = null;
-        }
+    getCollection({ commit }) {
+      axios.get('/exercises').then(({ data }) => {
+        commit('setCollection', data);
       })
-      
-      localStorage.setItem('fit-collection', JSON.stringify(state.collection));
     },
-    setWeight({ commit, dispatch }, payload) {
-      if (payload) {
-        commit('setWeight', payload);
-        dispatch('updateLocalCollection');
-      }
+    setWeight({ commit, getters }, payload) {
+      axios.put(`/exercises/${getters.currentEx.id}`, {
+        weight: payload,
+      })
+      commit('setWeight', payload);
     }
   }
 })
