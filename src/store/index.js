@@ -46,7 +46,6 @@ export default new Vuex.Store({
 
   actions: {
     getCollection({ commit }) {
-      console.log('DATA: ', DATA);
       commit('setCollection', DATA);
       // axios.get('/exercises').then(({ data }) => {
       // })
