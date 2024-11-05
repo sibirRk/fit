@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 // import exercises from '@/data/exercises.json';
 import vueDebounce from 'vue-debounce';
 import axios from '@/utils/axios';
+import DATA from '../data/exercises'
 
 Vue.use(Vuex);
 Vue.use(vueDebounce);
@@ -15,19 +16,19 @@ export default new Vuex.Store({
     weeks: [1, 2, 3, 4],
     currentExIndex: 0,
   },
-  
+
   mutations: {
     setCollection(state, payload) {
       state.collection = payload;
     },
     setWeek(state, payload) {
-      if (payload && payload !== state.weeks.length + 1)  {
+      if (payload && payload !== state.weeks.length + 1) {
         localStorage.setItem('fit-week', payload);
         state.week = payload;
       }
     },
     setCurrentExIndex(state, payload) {
-      if (payload >= 0 && payload !== state.collection.length + 1)  {
+      if (payload >= 0 && payload !== state.collection.length + 1) {
         state.currentExIndex = payload;
       }
     },
@@ -45,9 +46,9 @@ export default new Vuex.Store({
 
   actions: {
     getCollection({ commit }) {
-      axios.get('/exercises').then(({ data }) => {
-        commit('setCollection', data);
-      })
+      commit('setCollection', DATA);
+      // axios.get('/exercises').then(({ data }) => {
+      // })
     },
     setWeight({ commit, getters }, payload) {
       axios.put(`/exercises/${getters.currentEx.id}`, {
