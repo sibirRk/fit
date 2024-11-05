@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 // import exercises from '@/data/exercises.json';
 import vueDebounce from 'vue-debounce';
 import axios from '@/utils/axios';
-import DATA from '../data/exercises'
+import { DATA } from '@/data/exercises'
 
 Vue.use(Vuex);
 Vue.use(vueDebounce);
@@ -46,6 +46,7 @@ export default new Vuex.Store({
 
   actions: {
     getCollection({ commit }) {
+      console.log('DATA: ', DATA);
       commit('setCollection', DATA);
       // axios.get('/exercises').then(({ data }) => {
       // })
